@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Delete{% endblock %}
+
+{% block body %}
+  <h1 class="my-6 font-semibold text-xl text-center">Deleting <span style="font-style: italic;">{{note}}</span></h1>
+  <form method="POST">
+    {% csrf_token %}
+    <p class="text-center">Are you sure you want to delete this note ? " {{ note }} "</p>
+    <div class="flex gap-2 py-4 justify-center">
+    <input type="submit" value="Yes" class="py-2 px-4 bg-red-500 text-white">
+    <a href="{% url 'notes' %}" class="py-2 px-4 bg-gray-300 text-white">No</a>
+    </div>
+  </form>
+
+
+{% endblock %}

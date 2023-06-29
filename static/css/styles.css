@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Isabel Semi Cond';
+    src: local('Isabel Semi Cond Thin'), local('Isabel-Semi-Cond-Thin'),
+        url('IsabelSemiCond-Thin.woff2') format('woff2'),
+        url('IsabelSemiCond-Thin.woff') format('woff'),
+        url('IsabelSemiCond-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+  }

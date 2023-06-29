@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}{% endblock %} | Notes</title>
+
+    <!-- Tailwind styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- CkEditor script -->
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+    <!-- Google Fonts -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Noto+Serif+Display:wght@400;500&family=Open+Sans:wght@400;700&family=Public+Sans:wght@300;400&display=swap" rel="stylesheet"> -->
+    <!-- Custom styling -->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+  </head>
+
+  <body class="max-w-5xl mx-auto">
+
+    <header>
+      <nav class="py-6 px-6 items-center border-b border-slate-200 dark:border-slate-600 dark:bg-black">
+        <div class="flex justify-end">
+          <div class="flex-1 text-2xl font-semibold dark:text-white">
+            <a href="/" style="font-family: 'Isabel'; font-weight: 100; font-size: 36px; ">notes</a>
+          </div>
+          <div class="mt-1 flex-end text-lg font-semibold dark:text-white">
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}">Logout</a>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="mx-auto p-6 bg-gray-100 dark:bg-black dark:text-white h-full">
+    {% block body %}
+    {% endblock body %}
+    </div>
+
+  </body>
+
+
+  <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+  <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+  <script>
+    // Replace 'id_note' with the actual ID of the note field
+    CKEDITOR.replace('id_note');
+  </script>
+
+</html>

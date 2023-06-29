@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+
+  <h1 class="text-xl font-semibold py-6">Login</h1>
+
+  <form method="POST" class="dark:text-slate-600">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Login" class="p-2 bg-gray-500 text-white rounded-xl">
+  </form>
+
+  <div class="py-4">
+    <p>Don't have an acccount ? <a href="{% url 'register' %}">Register</a></p>
+  </div>
+{% endblock %}
