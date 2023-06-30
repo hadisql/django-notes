@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView, TemplateView
 from django.urls import reverse_lazy
 
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.http import HttpResponseForbidden
 
 from django.db.models import Q
 
@@ -38,16 +39,35 @@ class CustomLoginView(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        return reverse_lazy('notes') #force the login to redirect to notes page instead of profile (that doesn't exist)
-
-
+        return reverse_lazy('all-notes') #force the login to redirect to notes page instead of profile (that doesn't exist)
 
 class NoteList(LoginRequiredMixin, ListView):
-# when using loginrequiredMixin, the unauthenticated user cannot access the index page (where the notes are)
-# we added " LOGIN_URL = 'login' " in the settings
     model = Note
     context_object_name = 'notes'
-    template_name = 'main/notes.html'
+    template_name = "main/index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['notes'] = context['notes'].filter(published=True)
+        return context
+
+
+class NoteListDetail(LoginRequiredMixin, TemplateView):
+    template_name = "main/note_detail.html"
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        note_id = self.kwargs['pk']
+        context['note'] = Note.objects.get(id=note_id)
+        return context
+
+class PersonalNoteList(LoginRequiredMixin, ListView):
+    # when using loginrequiredMixin, the unauthenticated user cannot access the index page (where the notes are)
+    # we added " LOGIN_URL = 'login' " in the settings
+    model = Note
+    context_object_name = 'notes'
+    template_name = 'main/my_notes.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -81,11 +101,19 @@ class NoteCreate(LoginRequiredMixin, CreateView):
         return context
 
 
-class NoteUpdate(LoginRequiredMixin, UpdateView):
+class NoteUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Note
     form_class = NoteForm
     #fields = ['title', 'note']
     success_url = reverse_lazy('notes')
+
+    def test_func(self):
+        note_id = self.kwargs['pk']
+        note = Note.objects.get(id=note_id)
+        return self.request.user == note.user  # Check if the logged-in user owns the note
+
+    def handle_no_permission(self):
+        return HttpResponseForbidden("You don't have permission to update this note.")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
