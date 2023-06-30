@@ -10,6 +10,7 @@ class Note(models.Model):
     note = RichTextField(blank=True, null=True)
     #note = models.TextField(blank=True, null=True)
     created_time = models.DateTimeField(auto_now_add=True)
+    published = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title if self.title else '(no title)'

@@ -1,0 +1,19 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+
+{% block body %}
+
+<h1 class="pl-2 w-80 mx-auto text-2xl font-semibold">Last publications</h1>
+<br>
+
+{% for note in notes %}
+  <div class="p-2 border-b w-80 mx-auto">
+    <a class="block text-xs font-thin">{{note.created_time|timesince}} ago | published by {{ note.user|title }}</a>
+    <a href="{% url 'note-detail' note.id %}" class="inline-block font-semibold">{{note.title|title}}</a>
+    <p class="text-xs italic">{{ note.note|truncatechars:60|striptags|safe }}</p>
+  </div>
+{% endfor %}
+
+{% endblock body %}

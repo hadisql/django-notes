@@ -1,4 +1,7 @@
 {% extends 'main/base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
 
 {% block title %}
   {{ page_title }}
@@ -19,9 +22,16 @@
         <!-- <label for="{{ form.note.id_for_label }}">Note</label> -->
         {{ form.note }}
       </div>
+      <div class="w-36 mx-auto bg-gradient-to-tr hover:bg-gradient-to-bl from-emerald-500 to-teal-500 rounded-xl py-2 px-4  gap-3 mt-5 justify-center">
+        {{ form.published }}
+        <div class="flex inline-flex ml-2 gap-2 text-white">
+          <label for="{{ form.published.id_for_label }}" >publish </label>
+          <img src="{% static 'icons/feather-solid.svg' %}" alt="feather-icon" class="publish-icon">
+        </div>
+      </div>
 
       <div class="py-4 mt-6 mb-10 flex gap-4 justify-center">
-        <input type="submit" value="Save" class="px-4 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded-xl">
+        <input type="submit" value="Save" class="px-4 py-2 bg-gradient-to-tr hover:bg-gradient-to-bl from-cyan-500 to-blue-500 text-white rounded-xl">
         <a href="{% url 'notes' %}" class="bg-gray-400 hover:bg-gray-600 text-white rounded-xl px-4 py-2">Cancel</a>
         {% if page_title != "Create" %}
           <a href="{% url 'note-delete' note.id %}" class="bg-red-500 hover:bg-red-700 text-white rounded-xl px-4 py-2">
