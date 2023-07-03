@@ -21,29 +21,32 @@
   <body class="max-w-5xl mx-auto dark:bg-black">
 
     <header>
-      <nav class="py-6 px-6 items-center dark:border-slate-600 dark:bg-black">
+      <nav class="py-6 px-6 items-center dark:bg-black">
         <div class="flex justify-end">
           <div class="flex-1 text-2xl font-semibold dark:text-white">
-            <a href="/" style="font-family: 'Isabel'; font-weight: 100; font-size: 36px; ">notes</a>
+            <a href="/" style="font-family: 'Isabel'; font-weight: 100; font-size: 36px; cursor: pointer;">notes</a>
           </div>
           <div class="mt-1 space-x-6 flex-end text-lg font-semibold dark:text-white">
             {% if request.user.is_authenticated %}
-            <a href="{% url 'notes' %}">My notes</a>
-            <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'notes' %}" class="hover:text-gray-300">My notes</a>
+            <a href="{% url 'profile' user.id  %}" class="hover:text-gray-300">My profile</a>
+            <a href="{% url 'logout' %}" class="hover:text-gray-300">Logout</a>
             {% endif %}
           </div>
         </div>
       </nav>
     </header>
 
-    <div class="mx-auto p-6 bg-gray-100 rounded-lg border-t border-slate-200 dark:bg-black dark:text-white h-full">
+    <div class="mx-auto p-6 bg-gray-100 rounded-b-lg border-t border-slate-200 dark:bg-slate-900 dark:text-white h-full">
     {% block body %}
     {% endblock body %}
     </div>
 
   </body>
 
-
+  <!-- Custom scripts -->
+  <script src="{% static 'js/script.js' %}"></script>
+  <!-- CkEditor scripts -->
   <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
   <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
   <script>

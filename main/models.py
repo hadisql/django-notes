@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 
 
-# Create your models here.
 class Note(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="notes")
     title = models.CharField(max_length=150, blank=True)

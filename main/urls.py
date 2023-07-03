@@ -1,9 +1,6 @@
 from django.urls import path
-from django.conf import settings
-from django.conf.urls.static import static
 
 from .views import PersonalNoteList, NoteCreate, NoteUpdate, NoteDelete, CustomLoginView, RegisterPage, NoteList, NoteListDetail
-
 from django.contrib.auth.views import LogoutView
 
 
@@ -18,4 +15,3 @@ urlpatterns = [
     path('note-delete/<int:pk>', NoteDelete.as_view(), name='note-delete'),
     path('note-detail/<int:pk>', NoteListDetail.as_view(), name='note-detail'),
 ]
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
