@@ -12,11 +12,11 @@ from django.db.models import Q
 
 from .models import Note
 
-from .forms import NoteForm
+from .forms import NoteForm, RegisterForm
 
 class RegisterPage(FormView):
     template_name = 'main/register.html'
-    form_class = UserCreationForm
+    form_class = RegisterForm
     redirect_authenticated_user = True # we want to redirect authenticated users if trying to access the register page -> doesn't seem to work
     success_url = reverse_lazy('notes')
 
@@ -104,7 +104,6 @@ class NoteCreate(LoginRequiredMixin, CreateView):
 class NoteUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Note
     form_class = NoteForm
-    #fields = ['title', 'note']
     success_url = reverse_lazy('notes')
 
     def test_func(self):

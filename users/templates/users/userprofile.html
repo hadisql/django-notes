@@ -1,0 +1,65 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+{% block title %}Your Profile{% endblock %}
+
+
+{% block body %}
+
+
+<h1 class="pl-2 w-80 mx-auto text-2xl font-semibold" >{% if profile.first_name %} {{profile.first_name|title}}{% else %} {{profile.user.username|title}}{% endif %}'s Profile Page</h1>
+
+<br>
+
+<hr class="p-4">
+<!-- Profile -->
+<div class="mx-auto w-80">
+  <!-- <h2 class="font-semibold text-lg text-center">Profile</h2> -->
+
+
+  <div class="mt-6 mb-4 p-2 border-2 border-gray-300 rounded-xl">
+    {% if profile.avatar %}
+      <img src="{{ profile.avatar.url }}" alt="User Avatar" width="100" height="100" class="rounded-full mx-auto block shadow-lg border-2 border-gray-100/75"/>
+    {% else %}
+      <img src="https://api.dicebear.com/6.x/initials/svg?seed={{profile.user.username}}" alt="avatar" width="100" height="100" class="rounded-full mx-auto block shadow-lg border-2 border-gray-100/75"/>
+    {% endif %}
+    <h2 class="mt-6 text-center text-lg font-semibold">About {{profile.first_name }}</h2>
+    <div class="italic p-2 text-center">
+      &#10077;
+      {% if profile.description %}
+        {{ profile.description }}
+      {% else %}
+        <p class="">No description</p>
+      {% endif %}
+      &#10078;
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 py-6">
+
+    {% for name, value in profile.get_fields %}
+      <div class="p-2 border-b border-r">
+        <p>{{ name|title }}</p>
+      </div>
+      <div class="p-2 pl-4 border-b">
+        {% if value != 'None' %}
+          {{ value }}
+        {% else %}
+          <p> - </p>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+  </div>
+
+  {% if profile.user == user %}
+  <div class="my-4">
+    <a href="{% url 'profile-update' profile.id %}" class="block w-fit mx-auto px-4 py-2 bg-gray-400 hover:bg-gray-600 rounded-xl text-white">Edit Profile</a>
+  </div>
+  {% endif %}
+</div>
+
+
+{% endblock %}

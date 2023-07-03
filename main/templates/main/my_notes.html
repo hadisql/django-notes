@@ -33,7 +33,7 @@
           <span class="inline-flex gap-1 text-xs font-thin">| &ensp;published <img src="{% static 'icons/feather-solid-light.png' %}" alt="feather-icon" style="width: 16px; height: 16px; opacity: 50;"></span>
         {% endif %}
         </a>
-        <a href="{% url 'note-update' note.id %}" class="inline-block font-semibold">{{note.title|title}}</a>
+        <a href="{% url 'note-update' note.id %}" class="inline-block font-semibold">{{note.title|capfirst}}</a>
         <p class="text-xs italic">{{ note.note|truncatechars:60|striptags|safe }}</p>
       </div>
     {% empty %}
