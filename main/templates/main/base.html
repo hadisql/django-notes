@@ -28,9 +28,9 @@
           </div>
           <div class="mt-1 space-x-6 flex-end text-lg font-semibold dark:text-white">
             {% if request.user.is_authenticated %}
-            <a href="{% url 'notes' %}" class="hover:text-gray-300">My notes</a>
-            <a href="{% url 'profile' user.id  %}" class="hover:text-gray-300">My profile</a>
-            <a href="{% url 'logout' %}" class="hover:text-gray-300">Logout</a>
+            <a href="{% url 'main:notes' %}" class="hover:text-gray-300">My notes</a>
+            <a href="{% url 'users:profile' user.id  %}" class="hover:text-gray-300">My profile</a>
+            <a href="{% url 'users:logout' %}" class="hover:text-gray-300">Logout</a>
             {% endif %}
           </div>
         </div>

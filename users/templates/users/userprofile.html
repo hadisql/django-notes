@@ -56,7 +56,7 @@
 
   {% if profile.user == user %}
   <div class="my-4">
-    <a href="{% url 'profile-update' profile.id %}" class="block w-fit mx-auto px-4 py-2 bg-gray-400 hover:bg-gray-600 rounded-xl text-white">Edit Profile</a>
+    <a href="{% url 'users:profile-update' profile.id %}" class="block w-fit mx-auto px-4 py-2 bg-gray-400 hover:bg-gray-600 rounded-xl text-white">Edit Profile</a>
   </div>
   {% endif %}
 </div>

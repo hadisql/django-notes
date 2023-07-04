@@ -18,7 +18,7 @@
     <input class="py-2 px-4 mr-2 border rounded-xl dark:text-black" placeholder="Find a note" type="text" name="search-area" value={{search_input}}>
     <input class="py-2 px-4 text-lg bg-gray-300 hover:bg-gray-400 text-white rounded-xl" type="submit" value="🔍">
   </form>
-  <a href="{% url 'note-create' %}" class="mt-4 py-2 px-4 text-lg bg-gradient-to-tr hover:bg-gradient-to-bl from-cyan-500 to-blue-500 text-white rounded-xl" >Create a Note</a>
+  <a href="{% url 'main:note-create' %}" class="mt-4 py-2 px-4 text-lg bg-gradient-to-tr hover:bg-gradient-to-bl from-cyan-500 to-blue-500 text-white rounded-xl" >Create a Note</a>
 
 </div>
 <hr class="p-4">
@@ -33,7 +33,7 @@
           <span class="inline-flex gap-1 text-xs font-thin">| &ensp;published <img src="{% static 'icons/feather-solid-light.png' %}" alt="feather-icon" style="width: 16px; height: 16px; opacity: 50;"></span>
         {% endif %}
         </a>
-        <a href="{% url 'note-update' note.id %}" class="inline-block font-semibold">{{note.title|capfirst}}</a>
+        <a href="{% url 'main:note-update' note.id %}" class="inline-block font-semibold">{{note.title|capfirst}}</a>
         <p class="text-xs italic">{{ note.note|truncatechars:60|striptags|safe }}</p>
       </div>
     {% empty %}

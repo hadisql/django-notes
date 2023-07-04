@@ -34,15 +34,15 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'main',
+    'users',
+    'ckeditor',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main',
-    'users',
-    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -117,8 +117,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Necessary when using LoginView
+LOGIN_URL = 'users:login'
 
-LOGIN_URL = 'login'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -137,5 +138,9 @@ CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Custom User Profile
-#AUTH_PROFILE_MODULE = 'users.UserProfile'
+
+# Save sent emails locally (see SMTP options for real email backend)
+# source : https://learndjango.com/tutorials/django-password-reset-tutorial
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
