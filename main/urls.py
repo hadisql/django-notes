@@ -1,13 +1,10 @@
 from django.urls import path
 
-from .views import PersonalNoteList, NoteCreate, NoteUpdate, NoteDelete, CustomLoginView, RegisterPage, NoteList, NoteListDetail
-from django.contrib.auth.views import LogoutView
+from .views import PersonalNoteList, NoteCreate, NoteUpdate, NoteDelete, NoteList, NoteListDetail
 
+app_name = 'main'
 
 urlpatterns = [
-    path('register/', RegisterPage.as_view(), name='register'),
-    path('login/', CustomLoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('', NoteList.as_view(), name='all-notes'),
     path('my-notes/', PersonalNoteList.as_view(), name='notes'),
     path('note-create', NoteCreate.as_view(), name='note-create'),

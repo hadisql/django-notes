@@ -11,7 +11,7 @@
 {% for note in notes %}
   <div class="p-2 border-b w-80 mx-auto">
     <a class="block text-xs font-thin">{{note.created_time|timesince}} ago | published by {{ note.user|title }}</a>
-    <a href="{% url 'note-detail' note.id %}" class="inline-block font-semibold">{{note.title|capfirst}}</a>
+    <a href="{% url 'main:note-detail' note.id %}" class="inline-block font-semibold">{{note.title|capfirst}}</a>
     <p class="text-xs italic">{{ note.note|truncatechars:60|striptags|safe }}</p>
   </div>
 {% endfor %}

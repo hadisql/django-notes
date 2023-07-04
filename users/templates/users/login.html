@@ -19,12 +19,14 @@
       </div>
 
       <div class="my-6 mx-auto">
-        <input type="submit" value="Login" class="px-4 py-2 bg-gray-500 text-white rounded-xl">
+        <input type="submit" value="Login" class="px-4 py-2 bg-gray-400 hover:bg-gray-600 text-white rounded-xl">
       </div>
     </div>
   </form>
 
   <div class="py-4 text-center">
-    <p>Don't have an acccount ? <a href="{% url 'register' %}">Register</a></p>
+    <p>Don't have an acccount ? <a href="{% url 'users:register' %}">Register</a></p>
+    <p>Forgot your password ? <a href="{% url 'users:reset_password' %}" class="mt-2 italic"> Click Here</a></p>
+
   </div>
 {% endblock %}
