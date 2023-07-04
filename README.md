@@ -12,3 +12,4 @@ v1 :
 v2:
   - user account with profile page
   - avatar for each user (default one set with an open source avatar library API)
+  - password reset with custom templates
