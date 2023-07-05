@@ -38,6 +38,16 @@
       </div>
 
       <div class="mt-6 mb-4">
+        <h3>Previous Avatars</h3>
+        {% for avatar in previous_avatars %}
+          <label>
+            <input type="radio" name="previous_avatar" value="{{ avatar.id }}">
+            <img src="{{ avatar.image.url }}" alt="Previous Avatar" width="100" height="100">
+          </label>
+        {% endfor %}
+      </div>
+
+      <div class="mt-6 mb-4">
         <label for="" class="py-2">Description</label>
         {{ form.description }}
       </div>
@@ -69,6 +79,8 @@
 
     </div>
   </form>
+
+
 
 </div>
 
