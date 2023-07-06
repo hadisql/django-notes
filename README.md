@@ -11,5 +11,8 @@ v1 :
 
 v2:
   - user account with profile page
-  - avatar for each user (default one set with an open source avatar library API)
+  - avatar for each user :
+    - upload up to 3 avatars per users
+    - avatar management : switch between uploaded avatars/ delete
+    - (next upgrade): crop avatars and compress when stored
   - password reset with custom templates
