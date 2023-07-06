@@ -1,9 +1,9 @@
 from typing import Any
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 
-from django.views.generic import ListView, UpdateView, FormView
+from django.views.generic import ListView, UpdateView, FormView, View
 from django.http import HttpResponse, HttpResponseForbidden
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -14,7 +14,8 @@ from .models import UserProfile, PreviousAvatar
 
 from .forms import UserProfileForm, RegisterForm
 
-
+from django.conf import settings
+import os
 
 class RegisterPage(FormView):
     template_name = 'users/register.html'
@@ -100,20 +101,58 @@ class ProfileUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             current_avatar = get_object_or_404(PreviousAvatar, id=selected_avatar_id)
             form.instance.avatar = current_avatar.image
 
-
         return super().form_valid(form)
 
     def is_limit_reached(self):
         max_previous_avatars = 3
         user_profile = self.get_object()
-        return user_profile.previous_avatars.filter(user_profile=user_profile).count() > max_previous_avatars
+        return user_profile.previous_avatars.filter(user_profile=user_profile).count() >= max_previous_avatars
 
     def post(self, request, *args, **kwargs):
         if self.is_limit_reached():
-            return HttpResponse("You've reached max number of avatars")  # Redirect to a specific URL if the limit is reached
+            user_profile = self.get_object()
+            previous_avatars = user_profile.previous_avatars.all()
+
+            return render(request, 'users/manage_avatars.html', {
+                'user_profile': user_profile,
+                'previous_avatars': previous_avatars
+            })
         else:
             return super().post(request, *args, **kwargs)
 
     def get_success_url(self):
         # cannot use reverse_lazy with pk to get back to user's profile
         return reverse('users:profile', kwargs={'pk':self.kwargs['pk']})
+
+
+class ManageAvatarsView(LoginRequiredMixin, UserPassesTestMixin, View):
+    template_name = 'users/manage_avatars.html'
+
+    def test_func(self):
+        profile_id = self.kwargs['pk']
+        profile = UserProfile.objects.get(id=profile_id)
+        return self.request.user == profile.user
+
+    def get_object(self):
+        profile_id = self.kwargs['pk']
+        return get_object_or_404(UserProfile, id=profile_id)
+
+    def get(self, request, *args, **kwargs):
+        user_profile = self.get_object()
+        previous_avatars = PreviousAvatar.objects.filter(user_profile=user_profile)
+        return render(request, self.template_name, {
+            'user_profile': user_profile,
+            'previous_avatars': previous_avatars
+        })
+
+    def post(self, request, *args, **kwargs):
+        previous_avatar_id = request.POST.get('previous_avatar')
+        if previous_avatar_id:
+            previous_avatar = PreviousAvatar.objects.filter(id=previous_avatar_id).first()
+            if previous_avatar:
+                # Delete the associated image file
+                image_path = os.path.join(settings.MEDIA_ROOT, previous_avatar.image.name)
+                os.remove(image_path)
+                # Delete the previous avatar object
+                previous_avatar.delete()
+        return redirect('users:manage_avatars', pk=self.kwargs['pk'])
