@@ -2,6 +2,7 @@
 sent_emails/
 media/
 staticfiles/
+static/images/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 

@@ -1,0 +1,46 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+{% block title %}Your Profile{% endblock %}
+
+
+{% block body %}
+
+
+<!-- Profile Update -->
+<div class="mx-auto w-80">
+  <h2 class="font-semibold text-lg text-center">Avatar Update</h2>
+  <hr class="p-4">
+  <br>
+  {% if previous_avatars %}
+    <p class="text-justify">Too many avatars were updated to your profile, please delete one or more before uploading a new image</p>
+  {% else %}
+    <p class="text-center">No more avatars to delete</p>
+  {% endif %}
+
+  <form action="{% url 'users:manage_avatars' user_profile.id %}" method="POST" class="p-2">
+    {% csrf_token %}
+    <div class="flex flex-wrap gap-2">
+      {% for avatar in previous_avatars %}
+       <label>
+         <input type="radio" name="previous_avatar" value="{{ avatar.id }}">
+         <img src="{{ avatar.image.url }}" alt="Previous Avatar" width="100" height="100">
+       </label>
+      {% endfor %}
+    </div>
+
+    <div class="py-6 flex place-content-center gap-4 w-1/2 mx-auto">
+      {% if previous_avatars %}
+      <input type="submit" value="Delete" class="px-4 py-2 bg-gradient-to-tr hover:bg-gradient-to-bl from-cyan-500 to-blue-500 text-white rounded-xl">
+      {% endif %}
+      <a href="{% url 'users:profile-update' user_profile.id %}" class="bg-gray-400 hover:bg-gray-600 text-white rounded-xl px-4 py-2">Back</a>
+    </div>
+  </form>
+
+</div>
+
+
+
+{% endblock body %}
