@@ -14,5 +14,5 @@ v2:
   - avatar for each user :
     - upload up to 3 avatars per users
     - avatar management : switch between uploaded avatars/ delete
-    - (next upgrade): crop avatars and compress when stored
+    - crop avatars
   - password reset with custom templates

@@ -7,7 +7,7 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=150, blank=True, null=True)
     last_name = models.CharField(max_length=150, blank=True, null=True)
     age = models.PositiveSmallIntegerField(blank=True, null=True)
-    email = models.EmailField(blank=True, unique=True, null=True)
+    email = models.EmailField(blank=True, null=True)
     avatar = models.ImageField(blank=True, null=True, upload_to='avatars/')
     description = models.TextField(blank=True, null=True)
 
