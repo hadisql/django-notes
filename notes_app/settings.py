@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'main',
     'users',
     'ckeditor',
-    'image',
+    'crop',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

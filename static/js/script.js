@@ -2,12 +2,18 @@
 if (window.location.pathname === profileUpdateUrl) {
 
   const avatar = document.querySelector('#avatar')
-  const choosePic = document.querySelector('#choosepic')
+  const choosePic = document.querySelector('#choosepic_menu')
+
+  const newPicButton = document.querySelector('#newpic_button')
+  const newPicDiv = document.querySelector('#newpic_div')
+
+  const prevPicButton = document.querySelector('#prevpic_button')
+  const prevPicDiv = document.querySelector('#prevpic_div')
 
   avatar.addEventListener('click', () => {
     console.log('click avatar');
 
-    if(choosePic.classList.contains('hidden')){ // Open avatar file choosing button
+    if(choosePic.classList.contains('hidden')){ // Open avatar change menu
       choosePic.classList.remove('hidden');
       console.log('open choose button');
     } else {
@@ -15,71 +21,98 @@ if (window.location.pathname === profileUpdateUrl) {
       console.log('close choose button');
     }
   });
+
+  newPicButton.addEventListener('click', () => {
+    console.log('click upload avatar');
+
+    if(newPicDiv.classList.contains('hidden')){ // Open upload new avatar file choosing button
+      newPicDiv.classList.remove('hidden');
+      console.log('open new avatar input');
+    } else {
+      newPicDiv.classList.add('hidden');
+      console.log('close new avatar input');
+    }
+  });
+
+  prevPicButton.addEventListener('click', () => {
+    console.log('click upload avatar');
+
+    if(prevPicDiv.classList.contains('hidden')){ // Open upload new avatar file choosing button
+      prevPicDiv.classList.remove('hidden');
+      console.log('open previous avatar input');
+    } else {
+      prevPicDiv.classList.add('hidden');
+      console.log('close previous avatar input');
+    }
+  });
 }
 
 
 
-console.log('hello world')
-const alertBox = document.getElementById('alert-box')
-const imageBox = document.getElementById('image-box')
-const imageForm = document.getElementById('image-form')
-const confirmBtn = document.getElementById('confirm-btn')
-const input = document.getElementById('id_file')
+// CROP FUNCTIONALITY
+else {
 
-const csrf = document.getElementsByName('csrfmiddlewaretoken')
+  console.log('hello world')
+  const alertBox = document.getElementById('alert-box')
+  const imageBox = document.getElementById('image-box')
+  const imageForm = document.getElementById('image-form')
+  const confirmBtn = document.getElementById('confirm-btn')
+  const input = document.getElementById('id_file')
 
-input.addEventListener('change', ()=>{
-    alertBox.innerHTML = ""
-    confirmBtn.classList.remove('hidden')
-    const img_data = input.files[0]
-    const url = URL.createObjectURL(img_data)
+  const csrf = document.getElementsByName('csrfmiddlewaretoken')
 
-    imageBox.innerHTML = `<img src="${url}" id="image" width="700px">`
-    var $image = $('#image')
-    console.log($image)
 
-    $image.cropper({
-        aspectRatio: 9 / 9,
-        crop: function(event) {
-            console.log(event.detail.x);
-            console.log(event.detail.y);
-            console.log(event.detail.width);
-            console.log(event.detail.height);
-            console.log(event.detail.rotate);
-            console.log(event.detail.scaleX);
-            console.log(event.detail.scaleY);
-        }
-    });
+  alertBox.innerHTML = ""
+  // confirmBtn.classList.remove('hidden')
+  // const img_data = input.files[0]
+  const url = document.getElementsByTagName('a')[4].href
 
-    var cropper = $image.data('cropper');
-    confirmBtn.addEventListener('click', ()=>{
-        cropper.getCroppedCanvas().toBlob((blob) => {
-            console.log('confirmed')
-            const fd = new FormData();
-            fd.append('csrfmiddlewaretoken', csrf[0].value)
-            fd.append('file', blob, 'my-image.png');
+  imageBox.innerHTML = `<img src="${url}" id="image" width="400px">`
+  var $image = $('#image')
+  console.log($image)
 
-            $.ajax({
-                type:'POST',
-                url: imageForm.action,
-                enctype: 'multipart/form-data',
-                data: fd,
-                success: function(response){
-                    console.log('success', response)
-                    alertBox.innerHTML = `<div class="my-6 px-6 py-4 bg-lime-800 border-4 border-lime-200 text-lime-200 rounded-xl text-center" role="alert">
-                                            Successfully saved and cropped the selected image
-                                        </div>`
-                },
-                error: function(error){
-                    console.log('error', error)
-                    alertBox.innerHTML = `<div class="my-6 px-6 py-4 bg-red-800 border-4 border-red-200 text-red-200 rounded-xl text-center" role="alert">
-                                            Ups...something went wrong
-                                        </div>`
-                },
-                cache: false,
-                contentType: false,
-                processData: false,
-            })
-        })
-    })
-})
+  $image.cropper({
+      aspectRatio: 9 / 9,
+      crop: function(event) {
+          console.log(event.detail.x);
+          console.log(event.detail.y);
+          console.log(event.detail.width);
+          console.log(event.detail.height);
+          console.log(event.detail.rotate);
+          console.log(event.detail.scaleX);
+          console.log(event.detail.scaleY);
+      }
+  });
+
+  var cropper = $image.data('cropper');
+  confirmBtn.addEventListener('click', ()=>{
+      cropper.getCroppedCanvas().toBlob((blob) => {
+          console.log('confirmed')
+          const fd = new FormData();
+          fd.append('csrfmiddlewaretoken', csrf[0].value)
+          fd.append('avatar', blob, 'my-image.png');
+
+          $.ajax({
+              type:'POST',
+              url: imageForm.action,
+              enctype: 'multipart/form-data',
+              data: fd,
+              success: function(response){
+                  console.log('success', response)
+                  alertBox.innerHTML = `<div class="my-6 px-6 py-4 bg-lime-800 border-4 border-lime-200 text-lime-200 rounded-xl text-center" role="alert">
+                                          Successfully saved and cropped the selected image
+                                      </div>`
+              },
+              error: function(error){
+                  console.log('error', error)
+                  alertBox.innerHTML = `<div class="my-6 px-6 py-4 bg-red-800 border-4 border-red-200 text-red-200 rounded-xl text-center" role="alert">
+                                          Ups...something went wrong
+                                      </div>`
+              },
+              cache: false,
+              contentType: false,
+              processData: false,
+          })
+      })
+  })
+  }

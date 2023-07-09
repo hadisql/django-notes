@@ -30,23 +30,34 @@
 
     </div >
 
-    <div class="mb-6 hidden" id="choosepic">
-      {{ form.avatar }}
-
-      {% if previous_avatars %}
-      <h3 class="py-6 font-semibold text-center">Previous Avatars:</h3>
-      <div class="flex flex-wrap gap-2 mt-6 mb-4">
-
-        {% for avatar in previous_avatars %}
-          <label>
-            <input type="radio" name="previous_avatar" value="{{ avatar.id }}">
-            <img src="{{ avatar.image.url }}" alt="Previous Avatar" width="100" height="100" class="rounded-full">
-          </label>
-        {% endfor %}
+    <!-- Change avatar menu -->
+    <div class="hidden flex flex-wrap place-content-center gap-4 mb-6" id="choosepic_menu">
+      <!-- Upload new -->
+      <a id="newpic_button" class="px-4 py-2 bg-gradient-to-tr hover:bg-gradient-to-bl from-cyan-500 to-blue-500 text-white rounded-xl">Upload</a>
+      <div class="hidden mt-4" id="newpic_div">
+        {{ form.avatar }}
       </div>
+      <!-- Resize -->
+      {% if profile.avatar %}
+        <a href="{% url 'crop:cropped-avatar-view' %}" class="px-4 py-2 rounded-xl bg-gradient-to-tr hover:bg-gradient-to-bl from-emerald-500 to-teal-600 text-white">Resize</a>
       {% endif %}
+      <!-- Choose from previous -->
+      <a id="prevpic_button" class="px-4 py-2 rounded-xl bg-gray-400 hover:bg-gray-600 text-white">Pick from previous</a>
+      <div class="hidden mt-4" id="prevpic_div">
+        {% if previous_avatars %}
+        <h3 class="font-semibold text-center">Pick from previous Avatars:</h3>
+        <div class="flex flex-wrap gap-2 mt-6 mb-4">
+          {% for avatar in previous_avatars %}
+            <label>
+              <input type="radio" name="previous_avatar" value="{{ avatar.id }}">
+              <img src="{{ avatar.image.url }}" alt="Previous Avatar" width="100" height="100" class="rounded-full">
+            </label>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
     </div>
-
+    <!-- ----------------- -->
     <div class="pb-4">
       <label for="" class="py-2">Description</label>
       {{ form.description }}
@@ -74,7 +85,7 @@
 
 
     <div class="flex py-6 gap-6 place-content-center">
-      <input type="submit" value="Save" class="w-[5.2rem] px-6 py-2 bg-gradient-to-tr hover:bg-gradient-to-bl from-cyan-500 to-blue-500 text-white rounded-xl">
+      <input type="submit" value="Save" class="w-[5.2rem] px-4 py-2 bg-gradient-to-tr hover:bg-gradient-to-bl from-cyan-500 to-blue-500 text-white rounded-xl">
       <a href="{% url 'users:profile' user.id %}" class="w-[5.2rem] px-4 py-2 bg-gray-400 hover:bg-gray-600 text-white rounded-xl">Cancel</a>
 
     </div>
