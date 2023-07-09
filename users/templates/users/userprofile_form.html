@@ -1,7 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
 
-<link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
 {% block title %}Your Profile{% endblock %}
 
@@ -9,7 +8,7 @@
 {% block body %}
 
 
-<h1 class="pl-2 w-80 mx-auto text-2xl font-semibold" >Welcome {% if profile.first_name %} {{profile.first_name|title}} {% else %} {{user.username|title}} {% endif %}</h1>
+<h1 class="pl-2 w-80 mx-auto text-2xl text-center font-semibold" >Welcome {% if profile.first_name %} {{profile.first_name|title}} {% else %} {{user.username|title}} {% endif %}</h1>
 
 <br>
 
@@ -18,28 +17,36 @@
 <div class="mx-auto w-80">
   <h2 class="font-semibold text-lg text-center">Profile Update</h2>
 
-  <form action="" method="POST" class="p-2" enctype="multipart/form-data">
+  <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
 
-    <div class="py-6">
+    <div class="block py-8 text-center space-y-4">
 
-      <div class="block mb-4 text-center space-y-4">
+        {% if profile.avatar %}
+          <img src="{{ profile.avatar.url }}" alt="User Avatar" width="100" height="100" class="rounded-full mx-auto block shadow-lg border-2 border-gray-100/75 hover:brightness-90 hover:border-blue-600/75" id="avatar" />
+        {% else %}
+          <img src="https://api.dicebear.com/6.x/initials/svg?seed={{profile.user.username}}" alt="avatar" width="100" height="100" class="rounded-full mx-auto block shadow-lg border-2 border-gray-100/75 hover:brightness-90 hover:border-blue-600/75" id="avatar"/>
+        {% endif %}
 
-          {% if profile.avatar %}
-            <img src="{{ profile.avatar.url }}" alt="User Avatar" width="100" height="100" class="rounded-full mx-auto block shadow-lg border-2 border-gray-100/75 hover:brightness-90 hover:border-blue-600/75" id="avatar" />
-          {% else %}
-            <img src="https://api.dicebear.com/6.x/initials/svg?seed={{profile.user.username}}" alt="avatar" width="100" height="100" class="rounded-full mx-auto block shadow-lg border-2 border-gray-100/75 hover:brightness-90 hover:border-blue-600/75" id="avatar"/>
-          {% endif %}
+    </div >
 
-      </div >
-
-      <div class="mb-6 hidden" id="choosepic">
+    <!-- Change avatar menu -->
+    <div class="hidden flex flex-wrap place-content-center gap-4 mb-6" id="choosepic_menu">
+      <!-- Upload new -->
+      <a id="newpic_button" class="px-4 py-2 bg-gradient-to-tr hover:bg-gradient-to-bl from-cyan-500 to-blue-500 text-white rounded-xl">Upload</a>
+      <div class="hidden mt-4" id="newpic_div">
         {{ form.avatar }}
-
+      </div>
+      <!-- Resize -->
+      {% if profile.avatar %}
+        <a href="{% url 'crop:cropped-avatar-view' %}" class="px-4 py-2 rounded-xl bg-gradient-to-tr hover:bg-gradient-to-bl from-emerald-500 to-teal-600 text-white">Resize</a>
+      {% endif %}
+      <!-- Choose from previous -->
+      <a id="prevpic_button" class="px-4 py-2 rounded-xl bg-gray-400 hover:bg-gray-600 text-white">Pick from previous</a>
+      <div class="hidden mt-4" id="prevpic_div">
         {% if previous_avatars %}
-        <h3 class="py-6 font-semibold text-center">Previous Avatars:</h3>
+        <h3 class="font-semibold text-center">Pick from previous Avatars:</h3>
         <div class="flex flex-wrap gap-2 mt-6 mb-4">
-
           {% for avatar in previous_avatars %}
             <label>
               <input type="radio" name="previous_avatar" value="{{ avatar.id }}">
@@ -49,36 +56,37 @@
         </div>
         {% endif %}
       </div>
-
-      <div class="mt-6 mb-4">
-        <label for="" class="py-2">Description</label>
-        {{ form.description }}
-      </div>
-
-      <div class="mb-4">
-        <label for="" class="py-2">First Name</label>
-        {{ form.first_name }}
-      </div>
-
-      <div class="mb-4">
-        <label for="" class="py-2">Last Name</label>
-        {{ form.last_name }}
-      </div>
-
-      <div class="mb-4">
-        <label for="" class="py-2">Age</label>
-        {{ form.age }}
-      </div>
-
-      <div class="mb-4">
-        <label for="" class="py-2">Email</label>
-        {{ form.email }}
-      </div>
+    </div>
+    <!-- ----------------- -->
+    <div class="pb-4">
+      <label for="" class="py-2">Description</label>
+      {{ form.description }}
     </div>
 
-    <div class="flex gap-4 w-1/2 mx-auto">
-      <input type="submit" value="Save" class="px-4 py-2 bg-gradient-to-tr hover:bg-gradient-to-bl from-cyan-500 to-blue-500 text-white rounded-xl">
-      <a href="{% url 'users:profile' user.id %}" class="bg-gray-400 hover:bg-gray-600 text-white rounded-xl px-4 py-2">Cancel</a>
+    <div class="mb-4">
+      <label for="" class="py-2">First Name</label>
+      {{ form.first_name }}
+    </div>
+
+    <div class="mb-4">
+      <label for="" class="py-2">Last Name</label>
+      {{ form.last_name }}
+    </div>
+
+    <div class="mb-4">
+      <label for="" class="py-2">Age</label>
+      {{ form.age }}
+    </div>
+
+    <div class="mb-4">
+      <label for="" class="py-2">Email</label>
+      {{ form.email }}
+    </div>
+
+
+    <div class="flex py-6 gap-6 place-content-center">
+      <input type="submit" value="Save" class="w-[5.2rem] px-4 py-2 bg-gradient-to-tr hover:bg-gradient-to-bl from-cyan-500 to-blue-500 text-white rounded-xl">
+      <a href="{% url 'users:profile' user.id %}" class="w-[5.2rem] px-4 py-2 bg-gray-400 hover:bg-gray-600 text-white rounded-xl">Cancel</a>
 
     </div>
   </form>

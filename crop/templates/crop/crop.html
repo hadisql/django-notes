@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+
+{% block title %}Crop{% endblock title %}
+
+{% block body %}
+<div id="image-box" class="mb-3"></div>
+<form action="" id="image-form">
+  {% csrf_token %}
+  {{ form.avatar }}
+</form>
+<div class="flex flex-wrap place-content-center mt-6 gap-4 ">
+  <button class="w-[5.2rem] px-4 py-2 bg-gradient-to-tr hover:bg-gradient-to-bl from-cyan-500 to-blue-500 text-white rounded-xl" id="confirm-btn">Save</button>
+  <a href="{% url 'users:profile-update' profile.id %}" class="w-[5.2rem] px-4 py-2 bg-gray-400 hover:bg-gray-600 text-white rounded-xl">Cancel</a>
+</div>
+
+<div id="alert-box"></div>
+{% endblock body %}

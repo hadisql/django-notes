@@ -10,12 +10,21 @@
 
     <!-- Tailwind styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+
     <!-- CkEditor script -->
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-    <!-- Google Fonts -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Noto+Serif+Display:wght@400;500&family=Open+Sans:wght@400;700&family=Public+Sans:wght@300;400&display=swap" rel="stylesheet"> -->
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- cropper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.css">
+
     <!-- Custom styling -->
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+
+
   </head>
 
   <body class="max-w-5xl mx-auto dark:bg-black">
@@ -44,8 +53,7 @@
 
   </body>
 
-  <!-- Custom scripts -->
-  <script src="{% static 'js/script.js' %}"></script>
+
   <!-- CkEditor scripts -->
   <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
   <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
@@ -54,4 +62,17 @@
     CKEDITOR.replace('id_note');
   </script>
 
+  <!-- Custom scripts -->
+  {% if user.is_authenticated %}
+  <script>
+      var profileUpdateUrl = "{% url 'users:profile-update' user.userprofile.id %}";
+  </script>
+  {% else %}
+  <script>
+      var profileUpdateUrl = null;
+  </script>
+  {% endif %}
+
+
+  <script src="{% static 'js/script.js' %}"></script>
 </html>
