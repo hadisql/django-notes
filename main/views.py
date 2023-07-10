@@ -10,6 +10,9 @@ from .models import Note
 
 from .forms import NoteForm
 
+from django.contrib.auth.models import User
+
+
 
 
 class NoteList(LoginRequiredMixin, ListView):
@@ -20,6 +23,15 @@ class NoteList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['notes'] = context['notes'].filter(published=True)
+        # Retrieve the user IDs for all the authors of the notes
+        author_ids = [note.user_id for note in context['notes']]
+        # Retrieve the avatars for the authors
+        avatars = User.objects.filter(id__in=author_ids).values('userprofile__avatar', 'id')
+        # Create a dictionary mapping user IDs to their respective avatars
+        avatar_dict = {avatar['id']: avatar['userprofile__avatar'] for avatar in avatars}
+        # Add the avatar dictionary to the context
+        context['avatars'] = avatar_dict
+        # context['test_ids'] = author_ids
         return context
 
 
