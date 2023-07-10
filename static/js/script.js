@@ -91,7 +91,19 @@ else {
   alertBox.innerHTML = ""
   // confirmBtn.classList.remove('hidden')
   // const img_data = input.files[0]
-  const url = document.getElementsByTagName('a')[4].href
+  //const url = document.getElementsByTagName('a')[4].href
+
+  let url;
+  const anchorElements = document.querySelectorAll("a[href*='images/avatars/']");
+
+  anchorElements.forEach((anchorElement) => {
+    const href = anchorElement.getAttribute('href');
+    if (href.includes("images/avatars/")) {
+      console.log(href); // Output the href value of each matching anchor element
+      url = href;
+    }
+  });
+
 
   imageBox.innerHTML = `<img src="${url}" id="image" width="400px">`
   var $image = $('#image')
