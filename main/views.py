@@ -12,6 +12,7 @@ from .forms import NoteForm
 
 from django.contrib.auth.models import User
 
+from users.models import UserProfile
 
 
 
@@ -43,6 +44,13 @@ class NoteListDetail(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         note_id = self.kwargs['pk']
         context['note'] = Note.objects.get(id=note_id)
+         # Retrieve the user ID for the author of the note
+        author_id = context['note'].user_id
+        # Retrieve the userprofile for the author
+        userprofile = UserProfile.objects.filter(user_id=author_id)
+       # Add the avatar to the context
+        context['avatar'] = userprofile.first().avatar
+        # context['test_ids'] = author_ids
         return context
 
 class PersonalNoteList(LoginRequiredMixin, ListView):

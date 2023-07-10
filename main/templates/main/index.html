@@ -5,7 +5,7 @@
 
 {% block body %}
 
-<h1 class="pl-2 w-80 mx-auto text-2xl font-semibold">Last publications</h1>
+<h1 class="pl-2 w-80 mx-auto text-2xl text-center font-semibold">Last publications</h1>
 <br>
 
 {% for note in notes %}
@@ -18,10 +18,10 @@
         <a href="{% url 'main:note-detail' note.id %}" class="inline-block font-semibold">{{note.title|capfirst}}</a>
         <p class="text-xs italic">{{ note.note|truncatechars:60|striptags|safe }}</p>
       </div>
-      <div>
+      <div class="flex items-center">
         {% with avatar=avatars|get_item:note.user_id %}
         {% if avatar %}
-          <img src="images/{{ avatar }}" alt="User Avatar" width="50" height="50" class="rounded-full mx-auto block shadow-lg border-2 border-gray-100/75" />
+          <img src="images/{{ avatar }}" alt="User Avatar" width="40" height="40" class="rounded-full mx-auto block shadow-lg border-2 border-gray-100/75" />
         {% endif %}
         {% endwith %}
       </div>

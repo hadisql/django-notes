@@ -59,8 +59,9 @@
           <a href="{% url 'users:manage_avatars' profile.id %}" class="px-4 py-2 bg-gray-500 hover-bg-gray-700 text-white rounded-lg">Manage previous avatars</a>
         </div>
       </div>
+      {% endif %}
     </div>
-    {% endif %}
+
     <!-- ----------------- -->
     <div class="pb-4">
       <label for="" class="py-2">Description</label>

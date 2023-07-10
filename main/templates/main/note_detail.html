@@ -1,18 +1,28 @@
 {% extends 'main/base.html' %}
 
 {% block title %}Note Detail{% endblock %}
+
 {% block body %}
 
-<div class="p-4 space-y-4">
-  <h1 class="text-2xl font-semibold">
-    {{ note.title|title }} <span class="text-base font-thin"> by <a href="{% url 'users:profile' note.user.id %}">{{ note.user|title }}</a> | {{ note.created_time|date:'N j, Y' }}</span>
-  </h1>
-  <p>{{ note.note|safe }}</p>
+<div class="w-80 mx-auto grid grid-cols-4 p-4">
+  <div class="col-span-3">
+    <h1 class="text-2xl font-semibold">
+      {{ note.title|title }}</h1>
+    <p class="text-base font-thin"> by <a class="underline hover:font-normal" href="{% url 'users:profile' note.user.id %}">{{ note.user|title }}</a> | {{ note.created_time|date:'N j, Y' }}</p>
+  </div>
+  <div>
+    <img src="{{ avatar.url }}" alt="User Avatar" width="50" height="50" class="rounded-full mx-auto block shadow-lg border-2 border-gray-100/75" />
+  </div>
+  <div class="col-span-4 text-justify">
+    <p><br>{{ note.note|safe }}</p>
+  </div>
+</div>
+
 
   {% if note.user == user %}
   <div class="my-4">
     <a href="{% url 'main:note-update' note.id %}" class="block w-fit mx-auto px-4 py-2 bg-gray-400 hover:bg-gray-600 rounded-xl text-white">Edit</a>
   </div>
   {% endif %}
-</div>
+
 {% endblock body %}
