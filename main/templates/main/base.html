@@ -30,20 +30,34 @@
   <body class="max-w-5xl mx-auto dark:bg-black">
 
     <header>
-      <nav class="py-6 px-6 items-center dark:bg-black">
-        <div class="flex justify-end">
-          <div class="flex-1 text-2xl font-semibold dark:text-white">
+      <nav class="py-6 px-6 items-center dark:bg-black dark:text-white">
+        <div class="flex justify-end ">
+          <div class="flex-1 text-2xl font-semibold" >
             <a href="/" style="font-family: 'Isabel'; font-weight: 100; font-size: 36px; cursor: pointer;">notes</a>
           </div>
-          <div class="mt-1 space-x-6 flex-end text-lg font-semibold dark:text-white">
+          <div class="mt-1 space-x-6 max-lg:hidden flex-end text-lg font-semibold">
             {% if request.user.is_authenticated %}
             <a href="{% url 'main:notes' %}" class="hover:text-gray-300">My notes</a>
             <a href="{% url 'users:profile' user.id  %}" class="hover:text-gray-300">My profile</a>
             <a href="{% url 'users:logout' %}" class="hover:text-gray-300">Logout</a>
             {% endif %}
           </div>
+          <div id="btnHamburger" style="cursor: pointer;">
+            <span id="span1" class="rotate lg:hidden block w-6 h-0.5 bg-slate-700 mb-1.5 mt-1.5"></span>
+            <span id="span2" class="rotate lg:hidden block w-6 h-0.5 bg-slate-700 mb-1.5"></span>
+            <span id="span3" class="rotate lg:hidden block w-6 h-0.5 bg-slate-700 mb-1.5"></span>
+          </div>
         </div>
       </nav>
+
+      <div id="menu" class="flex flex-col gap-4 w-80 mx-auto place-content-center py-6 text-xl font-semibold text-center hidden">
+        {% if request.user.is_authenticated %}
+          <div><a href="{% url 'main:notes' %}" class="hover:text-gray-300">My notes</a></div>
+          <div><a href="{% url 'users:profile' user.id  %}" class="hover:text-gray-300">My profile</a></div>
+          <div><a href="{% url 'users:logout' %}" class="hover:text-gray-300">Logout</a></div>
+        {% endif %}
+      </div>
+
     </header>
 
     <div class="mx-auto p-6 bg-gray-100 rounded-b-lg border-t border-slate-200 dark:bg-slate-900 dark:text-white h-full">
