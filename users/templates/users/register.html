@@ -10,7 +10,7 @@
 <form method="POST" class="dark:text-slate-600">
   {% csrf_token %}
 
-  <div class="grid gap-2 my-6">
+  <div class="gap-2 my-6 text-center">
   {% for field in form %}
     <div class="mx-auto">
       <label>{{ field.label }}</label>

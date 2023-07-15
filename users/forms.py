@@ -41,13 +41,15 @@ class UserProfileForm(forms.ModelForm):
 
 
 class RegisterForm(UserCreationForm):
+    input_attrs_opt = {'class': 'rounded-xl py-1 px-2 dark:text-black w-full', 'placeholder':'optional'}
+    input_attrs = {'class': 'rounded-xl py-1 px-2 dark:text-black w-full'}
 
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'rounded-xl py-1 px-2 dark:text-black'}))
-    email = forms.EmailField(label = "Email", required=False, widget=forms.TextInput(attrs={'class': 'rounded-xl py-1 px-2 dark:text-black', 'placeholder':'optional'}))
-    first_name = forms.CharField(label = "First Name", required=False, widget=forms.TextInput(attrs={'class': 'rounded-xl py-1 px-2 dark:text-black', 'placeholder':'optional'}))
-    last_name = forms.CharField(label = "Last Name", required=False, widget=forms.TextInput(attrs={'class': 'rounded-xl py-1 px-2 dark:text-black', 'placeholder':'optional'}))
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'rounded-xl py-1 px-2 dark:text-black'}))
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={'class': 'rounded-xl py-1 px-2 dark:text-black'}))
+    username = forms.CharField(widget=forms.TextInput(attrs=input_attrs))
+    email = forms.EmailField(label = "Email", required=False, widget=forms.TextInput(attrs=input_attrs_opt))
+    first_name = forms.CharField(label = "First Name", required=False, widget=forms.TextInput(attrs=input_attrs_opt))
+    last_name = forms.CharField(label = "Last Name", required=False, widget=forms.TextInput(attrs=input_attrs_opt))
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput(attrs=input_attrs))
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs=input_attrs))
 
     class Meta:
         model = User

@@ -9,13 +9,13 @@
 {% block body %}
 
 
-<h1 class="pl-2 w-80 mx-auto text-center text-2xl font-semibold" >{% if profile.first_name %} {{profile.first_name|title}}{% else %} {{profile.user.username|title}}{% endif %}'s Profile Page</h1>
+<h1 class="mx-auto text-center text-2xl font-semibold" >{% if profile.first_name %} {{profile.first_name|title}}{% else %} {{profile.user.username|title}}{% endif %}'s Profile Page</h1>
 
 <br>
 
 <hr class="p-4">
 <!-- Profile -->
-<div class="mx-auto w-80">
+<div class="mx-auto">
   <!-- <h2 class="font-semibold text-lg text-center">Profile</h2> -->
 
 

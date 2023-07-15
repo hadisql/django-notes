@@ -8,13 +8,13 @@
 {% block body %}
 
 
-<h1 class="pl-2 w-80 mx-auto text-2xl text-center font-semibold" >Welcome {% if profile.first_name %} {{profile.first_name|title}} {% else %} {{user.username|title}} {% endif %}</h1>
+<h1 class="mx-auto text-2xl text-center font-semibold" >Welcome {% if profile.first_name %} {{profile.first_name|title}} {% else %} {{user.username|title}} {% endif %}</h1>
 
 <br>
 
 <hr class="p-4">
 <!-- Profile Update -->
-<div class="mx-auto w-80">
+<div class="mx-auto">
   <h2 class="font-semibold text-lg text-center">Profile Update</h2>
 
   <form action="" method="POST" enctype="multipart/form-data">
