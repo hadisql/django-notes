@@ -5,28 +5,35 @@
 
 {% block body %}
 
-<h1 class="pl-2 w-80 mx-auto text-2xl text-center font-semibold">Last publications</h1>
+<h1 class="text-2xl text-center font-semibold">Last publications</h1>
 <br>
 
 {% for note in notes %}
-  <div class="p-2 border-b w-80 mx-auto">
-    <div class="grid grid-flow-col">
+  <div class="grid grid-cols-12 p-2 border-b">
+    <div class="col-span-10 grid grid-rows-3 grid-flow-col">
       <div>
+        <!-- Creation time -->
         <a class=" text-xs font-thin">
           {{note.created_time|timesince}} ago | published by {{ note.user|title }}
         </a>
+      </div>
+      <div>
+        <!-- Title -->
         <a href="{% url 'main:note-detail' note.id %}" class="inline-block font-semibold">{{note.title|capfirst}}</a>
+      </div>
+      <div>
+        <!-- Content (truncated) -->
         <p class="text-xs italic">{{ note.note|truncatechars:60|striptags|safe }}</p>
       </div>
-      <div class="flex items-center">
-        {% with avatar=avatars|get_item:note.user_id %}
-        {% if avatar %}
-          <img src="images/{{ avatar }}" alt="User Avatar" width="40" height="40" class="rounded-full mx-auto block shadow-lg border-2 border-gray-100/75" />
-        {% endif %}
-        {% endwith %}
-      </div>
     </div>
-
+    <!-- User Avatar -->
+    <div class="col-span-2 flex items-center">
+      {% with avatar=avatars|get_item:note.user_id %}
+      {% if avatar %}
+        <img src="images/{{ avatar }}" alt="User Avatar" width="40" height="40" class="rounded-full mx-auto block shadow-lg border-2 border-gray-100/75" />
+      {% endif %}
+      {% endwith %}
+    </div>
 
   </div>
 {% endfor %}

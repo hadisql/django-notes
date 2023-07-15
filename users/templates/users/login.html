@@ -8,12 +8,12 @@
 
   <form method="POST" class="dark:text-slate-600 space-y-4">
     {% csrf_token %}
-    <div class="grid gap-4 my-6">
-      <div class="space-x-4 mx-auto">
+    <div class="grid gap-4 my-6 place-content-center">
+      <div class="space-x-4">
         <label for="{{ form.username.id_for_label }}" class="py-2">Username</label>
         {{ form.username }}
       </div>
-      <div class="space-x-4 mx-auto">
+      <div class="space-x-4">
         <label for="{{ form.password.id_for_label }}" class="py-2">Password&ensp;</label>
         {{ form.password }}
       </div>
