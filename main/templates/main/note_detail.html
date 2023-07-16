@@ -11,7 +11,11 @@
     <p class="text-base font-thin"> by <a class="underline hover:font-normal" href="{% url 'users:profile' note.user.id %}">{{ note.user|title }}</a> | {{ note.created_time|date:'N j, Y' }}</p>
   </div>
   <div>
+    {% if avatar %}
     <img src="{{ avatar.url }}" alt="User Avatar" width="50" height="50" class="rounded-full mx-auto block shadow-lg border-2 border-gray-100/75" />
+    {% else %}
+    <img src="https://api.dicebear.com/6.x/initials/svg?seed={{note.user.username}}" alt="avatar" width="50" height="50" class="rounded-full mx-auto block shadow-lg border-2 border-gray-100/75"/>
+    {% endif %}
   </div>
   <div class="col-span-4 text-justify">
     <p><br>{{ note.note|safe }}</p>
