@@ -3,11 +3,14 @@ sent_emails/
 media/
 staticfiles/
 static/images/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
 main/__pycache__/
 notes_app/__pycache__/
+
+notes_app/settings/dev.py
 
 *.py[cod]
 *$py.class
